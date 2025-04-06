@@ -21,7 +21,7 @@ export default function MedicalInfoScreen() {
 
   const handleSave = () => {
     // In a real app, this would save to a backend
-    toast.success('Medical information saved successfully!');
+    toast.success('Medical  , information saved successfully!');
   };
 
   const updateField = (field, value) => {
