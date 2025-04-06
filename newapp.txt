@@ -1,0 +1,2438 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareConnect - Complete Healthcare Solution</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts - Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FullCalendar CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #e63946;
+            --secondary-color: #1d3557;
+            --accent-color: #457b9d;
+            --light-color: #f1faee;
+            --dark-color: #0a1128;
+            --success-color: #2a9d8f;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            color: var(--dark-color);
+        }
+        
+        /* Glassmorphism Effect */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.2);
+        }
+        
+        /* Login Page */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: url('https://images.unsplash.com/photo-1581056771107-24ca5f033842?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80') no-repeat center center;
+            background-size: cover;
+            position: relative;
+        }
+        
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        
+        .login-box {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 450px;
+        }
+        
+        .logo {
+            width: 120px;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Buttons */
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            padding: 10px 25px;
+            font-weight: 500;
+        }
+        
+        .btn-primary:hover {
+            background-color: #c1121f;
+            border-color: #c1121f;
+        }
+        
+        .btn-outline-primary {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-outline-primary:hover {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-success {
+            background-color: var(--success-color);
+            border-color: var(--success-color);
+        }
+        
+        /* Emergency Buttons */
+        .emergency-btn {
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin: 10px;
+            width: 100%;
+            text-align: left;
+            transition: all 0.3s;
+            border: none;
+            color: white;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+        
+        .emergency-btn i {
+            font-size: 1.5rem;
+            margin-right: 15px;
+        }
+        
+        .ambulance-btn {
+            background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+        }
+        
+        .police-btn {
+            background: linear-gradient(135deg, #2193b0 0%, #6dd5ed 100%);
+        }
+        
+        .fire-btn {
+            background: linear-gradient(135deg, #f46b45 0%, #eea849 100%);
+        }
+        
+        .women-btn {
+            background: linear-gradient(135deg, #8e2de2 0%, #4a00e0 100%);
+        }
+        
+        /* Hospital Cards */
+        .hospital-card {
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+        
+        .hospital-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .hospital-img {
+            height: 180px;
+            object-fit: cover;
+        }
+        
+        .hospital-price {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        /* Medical Records */
+        .medical-record {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .record-type {
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+        
+        /* Calendar */
+        #calendar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .fc-event {
+            cursor: pointer;
+        }
+        
+        /* Pharmacy Cards */
+        .pharmacy-card {
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+        
+        .pharmacy-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .delivery-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--success-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+        
+        /* Navigation */
+        .navbar {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--primary-color) !important;
+        }
+        
+        .nav-link {
+            font-weight: 500;
+            margin: 0 10px;
+            color: var(--dark-color) !important;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary-color) !important;
+        }
+        
+        /* Success Message */
+        .success-container {
+            background: url('https://images.unsplash.com/photo-1584432810601-6c7f27d2362b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80') no-repeat center center;
+            background-size: cover;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        .success-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+        }
+        
+        .success-box {
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Tabs */
+        .nav-tabs .nav-link.active {
+            color: var(--primary-color);
+            font-weight: 600;
+            border-bottom: 2px solid var(--primary-color);
+        }
+        
+        /* QR Code Styles */
+        .qr-code-container {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin: 20px 0;
+        }
+        
+        .qr-code-img {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 15px;
+            display: block;
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .emergency-btn {
+                width: 100%;
+            }
+            
+            .hospital-img, .pharmacy-img {
+                height: 150px;
+            }
+            
+            .qr-code-img {
+                width: 150px;
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div class="login-container" id="loginPage">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6">
+                    <div class="login-box glass-card">
+                        <div class="text-center mb-4">
+                            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/4/41/Flag_of_India.svg/1200px-Flag_of_India.svg.png" alt="India Flag" class="logo">
+                            <h2 class="text-white">CareConnect</h2>
+                            <p class="text-white-50">Your Complete Healthcare Solution</p>
+                        </div>
+                        <form id="loginForm">
+                            <div class="mb-3">
+                                <label for="mobile" class="form-label text-white">Mobile Number</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white">+91</span>
+                                    <input type="tel" class="form-control" id="mobile" placeholder="Enter 10-digit mobile number" required pattern="[0-9]{10}">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label text-white">Password</label>
+                                <input type="password" class="form-control" id="password" placeholder="Enter password" required>
+                            </div>
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary btn-lg">Login</button>
+                            </div>
+                            <div class="text-center mt-3">
+                                <a href="#" class="text-white" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">Forgot Password?</a>
+                            </div>
+                            <div class="text-center mt-4">
+                                <p class="text-white">New user? <a href="#" class="text-white fw-bold" data-bs-toggle="modal" data-bs-target="#registerModal">Register here</a></p>
+                            </div>
+                        </form>
+                        
+                        <!-- QR Code Section -->
+                        <div class="qr-code-container mt-4">
+                            <h5 class="mb-3">Scan to download our app</h5>
+                            <img src="C:\Users\naazt\OneDrive\Desktop\app.jpg" alt="CareConnect App QR Code" class="qr-code-img">
+                            <p class="small text-muted mt-2">Scan this QR code with your phone's camera to download the CareConnect app</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Message (Hidden Initially) -->
+    <div class="success-container d-none" id="successPage">
+        <div class="container d-flex align-items-center justify-content-center min-vh-100">
+            <div class="success-box glass-card text-center text-white" style="max-width: 600px;">
+                <h1 class="display-4 fw-bold mb-4">Welcome!</h1>
+                <p class="lead mb-4">You have successfully logged in to CareConnect - Your Complete Healthcare Solution.</p>
+                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                    <button type="button" class="btn btn-primary btn-lg px-4 gap-3" onclick="showDashboard()">Go to Dashboard</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App (Hidden Initially) -->
+    <div class="d-none" id="mainApp">
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+            <div class="container">
+                <a class="navbar-brand" href="#" onclick="showDashboard()">
+                    <i class="fas fa-ambulance me-2"></i>CareConnect
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showDashboard()"><i class="fas fa-home me-1"></i> Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showEmergencyContacts()"><i class="fas fa-phone-alt me-1"></i> Emergency</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showHospitals()"><i class="fas fa-hospital me-1"></i> Hospitals</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showMedicalRecords()"><i class="fas fa-file-medical me-1"></i> Medical Records</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showAppointments()"><i class="fas fa-calendar-check me-1"></i> Appointments</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showPharmacy()"><i class="fas fa-prescription-bottle-alt me-1"></i> Pharmacy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#profileModal"><i class="fas fa-user me-1"></i> Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="logout()"><i class="fas fa-sign-out-alt me-1"></i> Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Dashboard Page -->
+        <div class="container py-5" id="dashboardPage">
+            <div class="text-center mb-5">
+                <h1 class="fw-bold">Welcome to CareConnect</h1>
+                <p class="lead text-muted">Your complete healthcare solution</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 border-0 shadow-sm" onclick="showEmergencyContacts()" style="cursor: pointer;">
+                        <div class="card-body text-center">
+                            <div class="bg-danger bg-opacity-10 p-3 rounded-circle d-inline-block mb-3">
+                                <i class="fas fa-ambulance fa-2x text-danger"></i>
+                            </div>
+                            <h5 class="card-title">Emergency Services</h5>
+                            <p class="card-text text-muted">Immediate medical assistance</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 border-0 shadow-sm" onclick="showHospitals()" style="cursor: pointer;">
+                        <div class="card-body text-center">
+                            <div class="bg-primary bg-opacity-10 p-3 rounded-circle d-inline-block mb-3">
+                                <i class="fas fa-hospital fa-2x text-primary"></i>
+                            </div>
+                            <h5 class="card-title">Find Hospitals</h5>
+                            <p class="card-text text-muted">Locate nearby medical facilities</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 border-0 shadow-sm" onclick="showMedicalRecords()" style="cursor: pointer;">
+                        <div class="card-body text-center">
+                            <div class="bg-success bg-opacity-10 p-3 rounded-circle d-inline-block mb-3">
+                                <i class="fas fa-file-medical fa-2x text-success"></i>
+                            </div>
+                            <h5 class="card-title">Medical Records</h5>
+                            <p class="card-text text-muted">Access your health information</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 border-0 shadow-sm" onclick="showAppointments()" style="cursor: pointer;">
+                        <div class="card-body text-center">
+                            <div class="bg-info bg-opacity-10 p-3 rounded-circle d-inline-block mb-3">
+                                <i class="fas fa-calendar-check fa-2x text-info"></i>
+                            </div>
+                            <h5 class="card-title">Appointments</h5>
+                            <p class="card-text text-muted">Schedule and manage visits</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 border-0 shadow-sm" onclick="showPharmacy()" style="cursor: pointer;">
+                        <div class="card-body text-center">
+                            <div class="bg-warning bg-opacity-10 p-3 rounded-circle d-inline-block mb-3">
+                                <i class="fas fa-prescription-bottle-alt fa-2x text-warning"></i>
+                            </div>
+                            <h5 class="card-title">24/7 Pharmacy</h5>
+                            <p class="card-text text-muted">Medicine delivery anytime</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 border-0 shadow-sm" data-bs-toggle="modal" data-bs-target="#profileModal" style="cursor: pointer;">
+                        <div class="card-body text-center">
+                            <div class="bg-secondary bg-opacity-10 p-3 rounded-circle d-inline-block mb-3">
+                                <i class="fas fa-user fa-2x text-secondary"></i>
+                            </div>
+                            <h5 class="card-title">My Profile</h5>
+                            <p class="card-text text-muted">Manage your account</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-4">
+                <div class="col-lg-6 mb-4">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-header bg-white border-0">
+                            <h5 class="mb-0">Upcoming Appointments</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="list-group">
+                                <div class="list-group-item border-0">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h6 class="mb-1">Dr. Sharma - Cardiology</h6>
+                                            <small class="text-muted">Apollo Hospitals, Delhi</small>
+                                        </div>
+                                        <div class="text-end">
+                                            <small class="text-muted">Tomorrow</small>
+                                            <div class="fw-bold">10:30 AM</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-group-item border-0">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h6 class="mb-1">Dental Checkup</h6>
+                                            <small class="text-muted">Fortis Dental Clinic</small>
+                                        </div>
+                                        <div class="text-end">
+                                            <small class="text-muted">June 15</small>
+                                            <div class="fw-bold">3:00 PM</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-header bg-white border-0">
+                            <h5 class="mb-0">Recent Medical Records</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="list-group">
+                                <div class="list-group-item border-0">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h6 class="mb-1">Blood Test Report</h6>
+                                            <small class="text-muted">May 28, 2023</small>
+                                        </div>
+                                        <div>
+                                            <button class="btn btn-sm btn-outline-primary">View</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-group-item border-0">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h6 class="mb-1">X-Ray Results</h6>
+                                            <small class="text-muted">May 15, 2023</small>
+                                        </div>
+                                        <div>
+                                            <button class="btn btn-sm btn-outline-primary">View</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- QR Code Section in Dashboard -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-header bg-white border-0">
+                            <h5 class="mb-0">Download Our Mobile App</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-md-6 text-center mb-3 mb-md-0">
+                                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://careconnect.app/download" alt="CareConnect App QR Code" class="qr-code-img">
+                                </div>
+                                <div class="col-md-6">
+                                    <h5>CareConnect Mobile App</h5>
+                                    <p>Scan the QR code with your phone's camera to download our app for faster access to all healthcare services.</p>
+                                    <ul class="list-unstyled">
+                                        <li><i class="fas fa-check text-success me-2"></i> Quick emergency access</li>
+                                        <li><i class="fas fa-check text-success me-2"></i> Medicine delivery tracking</li>
+                                        <li><i class="fas fa-check text-success me-2"></i> Appointment reminders</li>
+                                        <li><i class="fas fa-check text-success me-2"></i> Health record storage</li>
+                                    </ul>
+                                    <p class="small text-muted mt-3">Available on both Android and iOS platforms</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Emergency Contacts Page -->
+        <div class="container py-5 d-none" id="emergencyPage">
+            <div class="text-center mb-5">
+                <h1 class="fw-bold">Emergency Services</h1>
+                <p class="lead text-muted">Immediate help at your fingertips</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <button class="emergency-btn ambulance-btn" onclick="showAmbulanceContacts()">
+                        <i class="fas fa-ambulance"></i>
+                        <div>
+                            <h5 class="mb-1">Ambulance Services</h5>
+                            <small>Medical emergency transport</small>
+                        </div>
+                    </button>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <button class="emergency-btn police-btn" onclick="showPoliceContacts()">
+                        <i class="fas fa-shield-alt"></i>
+                        <div>
+                            <h5 class="mb-1">Police Assistance</h5>
+                            <small>Crime, accidents, safety</small>
+                        </div>
+                    </button>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <button class="emergency-btn fire-btn" onclick="showFireContacts()">
+                        <i class="fas fa-fire-extinguisher"></i>
+                        <div>
+                            <h5 class="mb-1">Fire Department</h5>
+                            <small>Fire, rescue, hazardous materials</small>
+                        </div>
+                    </button>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <button class="emergency-btn women-btn" onclick="showWomenSafetyContacts()">
+                        <i class="fas fa-female"></i>
+                        <div>
+                            <h5 class="mb-1">Women's Safety</h5>
+                            <small>24/7 helpline for women</small>
+                        </div>
+                    </button>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <button class="emergency-btn" style="background: linear-gradient(135deg, #4CAF50 0%, #8BC34A 100%);" onclick="showMentalHealthContacts()">
+                        <i class="fas fa-brain"></i>
+                        <div>
+                            <h5 class="mb-1">Mental Health</h5>
+                            <small>Crisis support and counseling</small>
+                        </div>
+                    </button>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <button class="emergency-btn" style="background: linear-gradient(135deg, #9C27B0 0%, #E91E63 100%);" onclick="showPoisonControl()">
+                        <i class="fas fa-skull-crossbones"></i>
+                        <div>
+                            <h5 class="mb-1">Poison Control</h5>
+                            <small>Toxic substance emergencies</small>
+                        </div>
+                    </button>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <button class="emergency-btn" style="background: linear-gradient(135deg, #FF9800 0%, #FF5722 100%);" onclick="showRoadAccidentContacts()">
+                        <i class="fas fa-car-crash"></i>
+                        <div>
+                            <h5 class="mb-1">Road Accidents</h5>
+                            <small>Highway patrol and rescue</small>
+                        </div>
+                    </button>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <button class="emergency-btn" style="background: linear-gradient(135deg, #607D8B 0%, #455A64 100%);" onclick="showSeniorCitizenContacts()">
+                        <i class="fas fa-wheelchair"></i>
+                        <div>
+                            <h5 class="mb-1">Senior Citizen</h5>
+                            <small>Elderly care and support</small>
+                        </div>
+                    </button>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <button class="emergency-btn" style="background: linear-gradient(135deg, #795548 0%, #5D4037 100%);" onclick="showDisasterManagementContacts()">
+                        <i class="fas fa-house-damage"></i>
+                        <div>
+                            <h5 class="mb-1">Disaster Management</h5>
+                            <small>Natural calamities support</small>
+                        </div>
+                    </button>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <button class="emergency-btn" style="background: linear-gradient(135deg, #9E9E9E 0%, #616161 100%);" onclick="showBloodBankContacts()">
+                        <i class="fas fa-tint"></i>
+                        <div>
+                            <h5 class="mb-1">Blood Banks</h5>
+                            <small>Emergency blood requirements</small>
+                        </div>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="glass-card mt-5" id="emergencyResults" style="display: none;">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3 id="emergencyResultsTitle" class="mb-0">Ambulance Services</h3>
+                    <button class="btn btn-sm btn-outline-primary" onclick="closeEmergencyResults()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div id="emergencyResultsContent">
+                    <!-- Content will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Hospitals Page -->
+        <div class="container py-5 d-none" id="hospitalsPage">
+            <div class="text-center mb-5">
+                <h1 class="fw-bold">Nearby Hospitals</h1>
+                <p class="lead text-muted">Find the best medical care in your area</p>
+            </div>
+            
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-text bg-white"><i class="fas fa-search"></i></span>
+                        <input type="text" class="form-control" placeholder="Search hospitals..." id="hospitalSearch">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <select class="form-select" id="hospitalFilter">
+                        <option value="all">All Hospitals</option>
+                        <option value="government">Government</option>
+                        <option value="private">Private</option>
+                        <option value="specialty">Specialty</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <select class="form-select" id="hospitalDistance">
+                        <option value="5">Within 5 km</option>
+                        <option value="10">Within 10 km</option>
+                        <option value="20">Within 20 km</option>
+                        <option value="50">Within 50 km</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="row" id="hospitalResults">
+                <!-- Hospitals will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Medical Records Page -->
+        <div class="container py-5 d-none" id="medicalRecordsPage">
+            <div class="text-center mb-5">
+                <h1 class="fw-bold">My Medical Records</h1>
+                <p class="lead text-muted">Access and manage your health information</p>
+            </div>
+            
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addRecordModal">
+                        <i class="fas fa-plus me-2"></i>Add New Record
+                    </button>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-text bg-white"><i class="fas fa-search"></i></span>
+                        <input type="text" class="form-control" placeholder="Search records..." id="recordSearch">
+                    </div>
+                </div>
+            </div>
+            
+            <ul class="nav nav-tabs mb-4" id="recordsTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="all-tab" data-bs-toggle="tab" data-bs-target="#all" type="button">All Records</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="reports-tab" data-bs-toggle="tab" data-bs-target="#reports" type="button">Lab Reports</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="prescriptions-tab" data-bs-toggle="tab" data-bs-target="#prescriptions" type="button">Prescriptions</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="vaccinations-tab" data-bs-toggle="tab" data-bs-target="#vaccinations" type="button">Vaccinations</button>
+                </li>
+            </ul>
+            
+            <div class="tab-content" id="recordsTabContent">
+                <div class="tab-pane fade show active" id="all" role="tabpanel">
+                    <div id="allRecords">
+                        <!-- All records will be loaded here -->
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="reports" role="tabpanel">
+                    <div id="reportRecords">
+                        <!-- Lab reports will be loaded here -->
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="prescriptions" role="tabpanel">
+                    <div id="prescriptionRecords">
+                        <!-- Prescriptions will be loaded here -->
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="vaccinations" role="tabpanel">
+                    <div id="vaccinationRecords">
+                        <!-- Vaccinations will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Appointments Page -->
+        <div class="container py-5 d-none" id="appointmentsPage">
+            <div class="text-center mb-5">
+                <h1 class="fw-bold">My Appointments</h1>
+                <p class="lead text-muted">Schedule and manage your medical visits</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header bg-white">
+                            <h5 class="mb-0">Schedule New Appointment</h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="appointmentForm">
+                                <div class="mb-3">
+                                    <label for="appointmentType" class="form-label">Appointment Type</label>
+                                    <select class="form-select" id="appointmentType" required>
+                                        <option value="">Select type</option>
+                                        <option value="general">General Consultation</option>
+                                        <option value="specialist">Specialist Consultation</option>
+                                        <option value="followup">Follow-up Visit</option>
+                                        <option value="test">Diagnostic Test</option>
+                                        <option value="vaccination">Vaccination</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="appointmentHospital" class="form-label">Hospital/Clinic</label>
+                                    <select class="form-select" id="appointmentHospital" required>
+                                        <option value="">Select facility</option>
+                                        <option value="aiims">AIIMS Delhi</option>
+                                        <option value="apollo">Apollo Hospitals</option>
+                                        <option value="fortis">Fortis Hospital</option>
+                                        <option value="max">Max Healthcare</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="appointmentDate" class="form-label">Date</label>
+                                    <input type="date" class="form-control" id="appointmentDate" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="appointmentTime" class="form-label">Time</label>
+                                    <input type="time" class="form-control" id="appointmentTime" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="appointmentNotes" class="form-label">Notes</label>
+                                    <textarea class="form-control" id="appointmentNotes" rows="2"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100">Schedule Appointment</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Appointment Calendar</h5>
+                            <div>
+                                <button class="btn btn-sm btn-outline-primary" id="todayBtn">Today</button>
+                                <button class="btn btn-sm btn-outline-primary" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+                                <button class="btn btn-sm btn-outline-primary" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="calendar"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card mt-4">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">Upcoming Appointments</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Date & Time</th>
+                                    <th>Type</th>
+                                    <th>Hospital/Doctor</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="upcomingAppointments">
+                                <!-- Appointments will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pharmacy Page -->
+        <div class="container py-5 d-none" id="pharmacyPage">
+            <div class="text-center mb-5">
+                <h1 class="fw-bold">24/7 Pharmacy Services</h1>
+                <p class="lead text-muted">Get medicines delivered anytime, anywhere</p>
+            </div>
+            
+            <div class="row mb-4">
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-text bg-white"><i class="fas fa-search"></i></span>
+                        <input type="text" class="form-control" placeholder="Search medicines..." id="medicineSearch">
+                        <button class="btn btn-primary">Search</button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <select class="form-select" id="medicineFilter">
+                        <option value="all">All Categories</option>
+                        <option value="prescription">Prescription Medicines</option>
+                        <option value="otc">Over-the-Counter</option>
+                        <option value="ayurvedic">Ayurvedic</option>
+                        <option value="homeopathy">Homeopathy</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i> All pharmacies listed provide 24/7 delivery services. Delivery charges may apply after midnight.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row" id="pharmacyResults">
+                <!-- Pharmacies will be loaded here -->
+            </div>
+            
+            <div class="row mt-5">
+                <div class="col-12">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-header bg-white">
+                            <h5 class="mb-0">Upload Prescription</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="border rounded p-4 text-center">
+                                        <i class="fas fa-file-prescription fa-3x text-primary mb-3"></i>
+                                        <h5>Upload Digital Prescription</h5>
+                                        <p class="text-muted">Upload a photo or PDF of your doctor's prescription</p>
+                                        <button class="btn btn-primary mt-2">Upload Prescription</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="border rounded p-4 text-center">
+                                        <i class="fas fa-user-md fa-3x text-primary mb-3"></i>
+                                        <h5>Request Online Consultation</h5>
+                                        <p class="text-muted">Get a prescription from our online doctors</p>
+                                        <button class="btn btn-outline-primary mt-2">Consult Now</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="bg-dark text-white py-4 mt-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <h5><i class="fas fa-ambulance me-2"></i> CareConnect</h5>
+                        <p>India's trusted emergency medical assistance platform connecting citizens with life-saving services.</p>
+                        <div class="mt-3">
+                            <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="text-white"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <h5>Quick Links</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="#" class="text-white-50">Home</a></li>
+                            <li><a href="#" class="text-white-50">Emergency Numbers</a></li>
+                            <li><a href="#" class="text-white-50">Hospital Directory</a></li>
+                            <li><a href="#" class="text-white-50">Medical Records</a></li>
+                            <li><a href="#" class="text-white-50">24/7 Pharmacy</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <h5>Emergency Contacts</h5>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-phone-alt me-2"></i> National Emergency: 112</li>
+                            <li><i class="fas fa-ambulance me-2"></i> Ambulance: 108</li>
+                            <li><i class="fas fa-female me-2"></i> Women's Helpline: 181</li>
+                            <li><i class="fas fa-brain me-2"></i> Mental Health: 08046110007</li>
+                            <li><i class="fas fa-skull-crossbones me-2"></i> Poison Control: 1800-116-117</li>
+                            <li><i class="fas fa-car-crash me-2"></i> Road Accident: 1073</li>
+                            <li><i class="fas fa-wheelchair me-2"></i> Senior Citizen: 14567</li>
+                        </ul>
+                    </div>
+                </div>
+                <hr>
+                <div class="text-center">
+                    <p class="mb-0">&copy; 2023 CareConnect. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Modals -->
+    <!-- Forgot Password Modal -->
+    <div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Reset Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Enter your registered mobile number to receive OTP for password reset.</p>
+                    <div class="mb-3">
+                        <label for="resetMobile" class="form-label">Mobile Number</label>
+                        <div class="input-group">
+                            <span class="input-group-text">+91</span>
+                            <input type="tel" class="form-control" id="resetMobile" placeholder="Enter 10-digit mobile number" pattern="[0-9]{10}">
+                        </div>
+                    </div>
+                    <div class="mb-3" id="otpField" style="display: none;">
+                        <label for="resetOTP" class="form-label">OTP</label>
+                        <input type="text" class="form-control" id="resetOTP" placeholder="Enter 6-digit OTP">
+                    </div>
+                    <div class="mb-3" id="newPasswordField" style="display: none;">
+                        <label for="newPassword" class="form-label">New Password</label>
+                        <input type="password" class="form-control" id="newPassword" placeholder="Enter new password">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="resetPasswordBtn">Send OTP</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create New Account</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="registerForm">
+                        <div class="mb-3">
+                            <label for="regName" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="regName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="regMobile" class="form-label">Mobile Number</label>
+                            <div class="input-group">
+                                <span class="input-group-text">+91</span>
+                                <input type="tel" class="form-control" id="regMobile" placeholder="Enter 10-digit mobile number" required pattern="[0-9]{10}">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="regEmail" class="form-label">Email (Optional)</label>
+                            <input type="email" class="form-control" id="regEmail">
+                        </div>
+                        <div class="mb-3">
+                            <label for="regPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="regPassword" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="regConfirmPassword" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="regConfirmPassword" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="registerUser()">Register</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div class="modal fade" id="profileModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">User Profile</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4 text-center">
+                            <img src="https://ui-avatars.com/api/?name=User+Name&background=random&size=150" class="rounded-circle mb-3" alt="Profile">
+                            <h5 id="profileName">User Name</h5>
+                            <p class="text-muted" id="profileMobile">+91 9876543210</p>
+                            <button class="btn btn-outline-primary btn-sm mt-2">
+                                <i class="fas fa-camera me-1"></i> Change Photo
+                            </button>
+                            
+                            <!-- QR Code in Profile -->
+                            <div class="qr-code-container mt-4">
+                                <h6 class="mb-3">Your CareConnect ID</h6>
+                                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=CARECONNECT-USER-9876543210" alt="User QR Code" class="qr-code-img">
+                                <p class="small text-muted mt-2">Scan this QR at hospitals for quick access</p>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <ul class="nav nav-tabs" id="profileTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="personal-tab" data-bs-toggle="tab" data-bs-target="#personal" type="button">Personal</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="medical-tab" data-bs-toggle="tab" data-bs-target="#medical" type="button">Medical Info</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="emergency-tab" data-bs-toggle="tab" data-bs-target="#emergency" type="button">Emergency Contacts</button>
+                                </li>
+                            </ul>
+                            <div class="tab-content p-3 border-top-0 border" id="profileTabContent">
+                                <div class="tab-pane fade show active" id="personal" role="tabpanel">
+                                    <form>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label class="form-label">First Name</label>
+                                                <input type="text" class="form-control" value="Rahul">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">Last Name</label>
+                                                <input type="text" class="form-control" value="Sharma">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Mobile Number</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">+91</span>
+                                                <input type="tel" class="form-control" value="9876543210">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Email</label>
+                                            <input type="email" class="form-control" value="rahul.sharma@example.com">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Date of Birth</label>
+                                            <input type="date" class="form-control" value="1985-06-15">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Address</label>
+                                            <textarea class="form-control" rows="3">123, Sector 15, Noida, Uttar Pradesh 201301</textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Update Profile</button>
+                                    </form>
+                                </div>
+                                <div class="tab-pane fade" id="medical" role="tabpanel">
+                                    <div class="mb-4">
+                                        <h6>Blood Group</h6>
+                                        <select class="form-select">
+                                            <option>Select blood group</option>
+                                            <option selected>B+</option>
+                                            <option>A+</option>
+                                            <option>A-</option>
+                                            <option>B-</option>
+                                            <option>AB+</option>
+                                            <option>AB-</option>
+                                            <option>O+</option>
+                                            <option>O-</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-4">
+                                        <h6>Known Allergies</h6>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="allergy1" checked>
+                                            <label class="form-check-label" for="allergy1">None</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="allergy2">
+                                            <label class="form-check-label" for="allergy2">Dust</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="allergy3">
+                                            <label class="form-check-label" for="allergy3">Pollen</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="allergy4">
+                                            <label class="form-check-label" for="allergy4">Penicillin</label>
+                                        </div>
+                                        <div class="input-group mt-2">
+                                            <input type="text" class="form-control" placeholder="Other allergies">
+                                            <button class="btn btn-outline-secondary">Add</button>
+                                        </div>
+                                    </div>
+                                    <div class="mb-4">
+                                        <h6>Chronic Conditions</h6>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="condition1">
+                                            <label class="form-check-label" for="condition1">Diabetes</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="condition2" checked>
+                                            <label class="form-check-label" for="condition2">Hypertension</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="condition3">
+                                            <label class="form-check-label" for="condition3">Asthma</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="condition4">
+                                            <label class="form-check-label" for="condition4">Heart Disease</label>
+                                        </div>
+                                        <div class="input-group mt-2">
+                                            <input type="text" class="form-control" placeholder="Other conditions">
+                                            <button class="btn btn-outline-secondary">Add</button>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h6>Current Medications</h6>
+                                        <div class="table-responsive">
+                                            <table class="table table-sm">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Medicine</th>
+                                                        <th>Dosage</th>
+                                                        <th>Frequency</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Amlodipine</td>
+                                                        <td>5mg</td>
+                                                        <td>Once daily</td>
+                                                        <td class="text-end">
+                                                            <button class="btn btn-sm btn-outline-danger"><i class="fas fa-times"></i></button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Metformin</td>
+                                                        <td>500mg</td>
+                                                        <td>Twice daily</td>
+                                                        <td class="text-end">
+                                                            <button class="btn btn-sm btn-outline-danger"><i class="fas fa-times"></i></button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <button class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-plus me-1"></i>Add Medication
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="emergency" role="tabpanel">
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-info-circle me-2"></i> These contacts will be notified in case of emergency and can access limited medical information.
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Relationship</th>
+                                                    <th>Contact</th>
+                                                    <th>Primary</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Priya Sharma</td>
+                                                    <td>Wife</td>
+                                                    <td>+91 9876543211</td>
+                                                    <td><i class="fas fa-check text-success"></i></td>
+                                                    <td class="text-end">
+                                                        <button class="btn btn-sm btn-outline-primary me-1"><i class="fas fa-edit"></i></button>
+                                                        <button class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Rajesh Sharma</td>
+                                                    <td>Father</td>
+                                                    <td>+91 9876543212</td>
+                                                    <td></td>
+                                                    <td class="text-end">
+                                                        <button class="btn btn-sm btn-outline-primary me-1"><i class="fas fa-edit"></i></button>
+                                                        <button class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEmergencyContactModal">
+                                        <i class="fas fa-plus me-1"></i>Add Emergency Contact
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Emergency Contact Modal -->
+    <div class="modal fade" id="addEmergencyContactModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Emergency Contact</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Relationship</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Mobile Number</label>
+                            <div class="input-group">
+                                <span class="input-group-text">+91</span>
+                                <input type="tel" class="form-control" placeholder="Enter 10-digit mobile number" required pattern="[0-9]{10}">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email (Optional)</label>
+                            <input type="email" class="form-control">
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="primaryContact">
+                            <label class="form-check-label" for="primaryContact">Set as primary emergency contact</label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary">Save Contact</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Medical Record Modal -->
+    <div class="modal fade" id="addRecordModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Medical Record</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addRecordForm">
+                        <div class="mb-3">
+                            <label class="form-label">Record Type</label>
+                            <select class="form-select" id="recordType" required>
+                                <option value="">Select record type</option>
+                                <option value="lab_report">Lab Report</option>
+                                <option value="prescription">Prescription</option>
+                                <option value="vaccination">Vaccination Record</option>
+                                <option value="doctor_note">Doctor's Note</option>
+                                <option value="scan_report">Scan/Imaging Report</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Title</label>
+                            <input type="text" class="form-control" id="recordTitle" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Date</label>
+                            <input type="date" class="form-control" id="recordDate" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Hospital/Clinic (Optional)</label>
+                            <input type="text" class="form-control" id="recordHospital">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Doctor (Optional)</label>
+                            <input type="text" class="form-control" id="recordDoctor">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Description (Optional)</label>
+                            <textarea class="form-control" id="recordDescription" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Upload File</label>
+                            <input type="file" class="form-control" id="recordFile">
+                            <small class="text-muted">You can upload PDF, JPG, or PNG files (max 5MB)</small>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="addMedicalRecord()">Save Record</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Appointment Details Modal -->
+    <div class="modal fade" id="appointmentDetailsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="appointmentDetailsTitle">Appointment Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="appointmentDetailsContent">
+                    <!-- Content will be loaded here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Reschedule</button>
+                    <button type="button" class="btn btn-outline-danger">Cancel Appointment</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- FullCalendar JS -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+    
+    <script>
+        // India-specific hospital data
+        const hospitals = [
+            { 
+                name: "AIIMS Delhi", 
+                address: "Ansari Nagar, New Delhi, Delhi 110029", 
+                price: "₹0 (Government Hospital)", 
+                type: "government",
+                image: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                distance: 2.5
+            },
+            { 
+                name: "Apollo Hospitals, Chennai", 
+                address: "21, Greams Lane, Off Greams Road, Chennai, Tamil Nadu 600006", 
+                price: "₹1,500 (Consultation)", 
+                type: "private",
+                image: "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                distance: 1.8
+            },
+            { 
+                name: "PGIMER Chandigarh", 
+                address: "Sector 12, Chandigarh, 160012", 
+                price: "₹50 (Government Hospital)", 
+                type: "government",
+                image: "https://images.unsplash.com/photo-1530026186672-2cd00ffc50fe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                distance: 4.2
+            },
+            { 
+                name: "Fortis Hospital, Bangalore", 
+                address: "154/9, Bannerghatta Road, Opposite IIM-B, Bangalore, Karnataka 560076", 
+                price: "₹2,000 (Consultation)", 
+                type: "private",
+                image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                distance: 3.7
+            },
+            { 
+                name: "Tata Memorial Hospital, Mumbai", 
+                address: "Dr. E Borges Road, Parel, Mumbai, Maharashtra 400012", 
+                price: "₹100 (Specialty Cancer Hospital)", 
+                type: "specialty",
+                image: "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                distance: 6.5
+            },
+            { 
+                name: "Christian Medical College, Vellore", 
+                address: "Ida Scudder Road, Vellore, Tamil Nadu 632004", 
+                price: "₹500 (Trust Hospital)", 
+                type: "specialty",
+                image: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1453&q=80",
+                distance: 8.1
+            },
+            { 
+                name: "KEM Hospital, Mumbai", 
+                address: "Acharya Donde Marg, Parel, Mumbai, Maharashtra 400012", 
+                price: "₹0 (Government Hospital)", 
+                type: "government",
+                image: "https://images.unsplash.com/photo-1581056771107-24ca5f033842?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                distance: 5.3
+            },
+            { 
+                name: "Manipal Hospitals, Bangalore", 
+                address: "98, HAL Old Airport Road, Bangalore, Karnataka 560017", 
+                price: "₹1,800 (Consultation)", 
+                type: "private",
+                image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                distance: 2.1
+            },
+            { 
+                name: "Sankara Nethralaya, Chennai", 
+                address: "18, College Road, Chennai, Tamil Nadu 600006", 
+                price: "₹600 (Specialty Eye Hospital)", 
+                type: "specialty",
+                image: "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                distance: 7.8
+            },
+            { 
+                name: "JIPMER Puducherry", 
+                address: "Dhanvantari Nagar, Gorimedu, Puducherry 605006", 
+                price: "₹0 (Government Hospital)", 
+                type: "government",
+                image: "https://images.unsplash.com/photo-1581595219315-a187dd40c322?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                distance: 9.4
+            }
+        ];
+
+        // India-specific emergency contacts
+        const ambulanceContacts = [
+            { name: "National Ambulance Service", number: "108" },
+            { name: "Centralized Ambulance (Delhi)", number: "102" },
+            { name: "AIIMS Trauma Center Ambulance", number: "011-26593569" },
+            { name: "Apollo Ambulance Services", number: "1066" },
+            { name: "Fortis Ambulance Services", number: "+91-8448444808" },
+            { name: "ZHL Ambulance (Dial 1298)", number: "1298" },
+            { name: "GVK EMRI (Andhra, Telangana)", number: "108" }
+        ];
+
+        const policeContacts = [
+            { name: "Police Emergency", number: "100" },
+            { name: "Women's Helpline", number: "181" },
+            { name: "Cyber Crime", number: "1930" },
+            { name: "Traffic Police", number: "103" },
+            { name: "Child Helpline", number: "1098" },
+            { name: "Anti Corruption Helpline", number: "1064" },
+            { name: "Railway Police Force", number: "182" }
+        ];
+
+        const fireContacts = [
+            { name: "Fire Emergency", number: "101" },
+            { name: "Disaster Management", number: "108" },
+            { name: "NDRF Helpline", number: "011-24363260" },
+            { name: "Delhi Fire Service", number: "101" },
+            { name: "Mumbai Fire Brigade", number: "101" }
+        ];
+
+        const womenSafetyContacts = [
+            { name: "Women's Helpline (All India)", number: "181" },
+            { name: "Delhi Commission for Women", number: "011-23379181" },
+            { name: "Mumbai Women's Helpline", number: "022-22633333" },
+            { name: "Bengaluru Women's Helpline", number: "0821-2418400" },
+            { name: "Shakti Rapid Rescue (Kerala)", number: "1091" },
+            { name: "Nirbhaya Helpline", number: "112" },
+            { name: "Ujjawala Anti-Trafficking", number: "1800-111-747" }
+        ];
+
+        const mentalHealthContacts = [
+            { name: "National Mental Health Helpline", number: "08046110007" },
+            { name: "Vandrevala Foundation", number: "18602662345" },
+            { name: "iCall Psychological Helpline", number: "022-25521111" },
+            { name: "Sumaitri Crisis Intervention", number: "011-23389090" },
+            { name: "Roshni Helpline (Hyderabad)", number: "040-66202000" },
+            { name: "Sneha Suicide Prevention", number: "044-24640050" }
+        ];
+
+        const poisonControlContacts = [
+            { name: "National Poison Information Center", number: "1800-116-117" },
+            { name: "AIIMS Poison Control", number: "011-26593677" },
+            { name: "Apollo Poison Control", number: "1066" },
+            { name: "Safdarjung Poison Control", number: "011-26198402" }
+        ];
+
+        const roadAccidentContacts = [
+            { name: "Highway Helpline", number: "1033" },
+            { name: "National Highway Authority", number: "1800-111-747" },
+            { name: "Road Accident Emergency", number: "1073" },
+            { name: "Golden Hour Accident Care", number: "108" }
+        ];
+
+        const seniorCitizenContacts = [
+            { name: "Senior Citizen Helpline", number: "14567" },
+            { name: "Elder Abuse Hotline", number: "1800-180-1253" },
+            { name: "Agewell Foundation", number: "011-29836486" },
+            { name: "HelpAge India", number: "1800-180-1253" }
+        ];
+
+        const disasterManagementContacts = [
+            { name: "National Disaster Management", number: "011-26701728" },
+            { name: "NDRF Helpline", number: "011-24363260" },
+            { name: "Earthquake/Flood Relief", number: "1070" },
+            { name: "Cyclone Warning", number: "1078" }
+        ];
+
+        const bloodBankContacts = [
+            { name: "National Blood Bank", number: "1910" },
+            { name: "Indian Red Cross Society", number: "011-23716441" },
+            { name: "Rotary Blood Bank", number: "09212356252" },
+            { name: "Sankalp India Foundation", number: "080-41154321" }
+        ];
+
+        // Medical records data
+        const medicalRecords = [
+            {
+                id: 1,
+                type: "lab_report",
+                title: "Complete Blood Count",
+                date: "2023-05-28",
+                hospital: "Max Lab, Noida",
+                doctor: "Dr. Gupta",
+                description: "Routine blood test showing normal ranges for all parameters",
+                file: "blood_test.pdf"
+            },
+            {
+                id: 2,
+                type: "prescription",
+                title: "Hypertension Medication",
+                date: "2023-05-15",
+                hospital: "Apollo Hospitals",
+                doctor: "Dr. Sharma",
+                description: "Prescription for Amlodipine 5mg once daily",
+                file: "prescription_may.jpg"
+            },
+            {
+                id: 3,
+                type: "scan_report",
+                title: "X-Ray Chest",
+                date: "2023-04-10",
+                hospital: "Fortis Hospital",
+                doctor: "Dr. Kapoor",
+                description: "X-ray showing clear lungs with no abnormalities",
+                file: "xray_chest.pdf"
+            },
+            {
+                id: 4,
+                type: "vaccination",
+                title: "COVID-19 Booster Dose",
+                date: "2023-03-05",
+                hospital: "Government Health Center",
+                doctor: "Dr. Singh",
+                description: "Covishield vaccine administered as booster dose",
+                file: "covid_vaccine.pdf"
+            }
+        ];
+
+        // Pharmacy data
+        const pharmacies = [
+            {
+                name: "Apollo Pharmacy",
+                address: "Sector 18, Noida, Uttar Pradesh 201301",
+                deliveryTime: "30 mins",
+                open24x7: true,
+                image: "https://images.unsplash.com/photo-1587854692152-cbe660dbde88?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80",
+                rating: 4.5
+            },
+            {
+                name: "MedPlus",
+                address: "Sector 62, Noida, Uttar Pradesh 201301",
+                deliveryTime: "45 mins",
+                open24x7: true,
+                image: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1430&q=80",
+                rating: 4.2
+            },
+            {
+                name: "Fortis Pharmacy",
+                address: "Sector 62, Noida, Uttar Pradesh 201301",
+                deliveryTime: "1 hour",
+                open24x7: false,
+                image: "https://images.unsplash.com/photo-1587854692152-cbe660dbde88?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80",
+                rating: 4.0
+            },
+            {
+                name: "Wellness Forever",
+                address: "Sector 104, Noida, Uttar Pradesh 201301",
+                deliveryTime: "1 hour",
+                open24x7: true,
+                image: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1430&q=80",
+                rating: 4.3
+            },
+            {
+                name: "Netmeds",
+                address: "Online Delivery",
+                deliveryTime: "2 hours",
+                open24x7: true,
+                image: "https://images.unsplash.com/photo-1587854692152-cbe660dbde88?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80",
+                rating: 4.7
+            }
+        ];
+
+        // Appointments data
+        const appointments = [
+            {
+                id: 1,
+                title: "Dr. Sharma - Cardiology",
+                type: "specialist",
+                hospital: "Apollo Hospitals, Delhi",
+                date: new Date(new Date().setDate(new Date().getDate() + 1)),
+                time: "10:30",
+                status: "confirmed",
+                notes: "Bring previous test reports"
+            },
+            {
+                id: 2,
+                title: "Dental Checkup",
+                type: "general",
+                hospital: "Fortis Dental Clinic",
+                date: new Date("2023-06-15"),
+                time: "15:00",
+                status: "confirmed",
+                notes: "Routine cleaning and checkup"
+            },
+            {
+                id: 3,
+                title: "Blood Test",
+                type: "test",
+                hospital: "Max Lab, Noida",
+                date: new Date("2023-06-20"),
+                time: "08:00",
+                status: "pending",
+                notes: "Fasting required for 12 hours"
+            }
+        ];
+
+        // DOM Elements
+        const loginPage = $('#loginPage');
+        const loginForm = $('#loginForm');
+        const successPage = $('#successPage');
+        const mainApp = $('#mainApp');
+        const dashboardPage = $('#dashboardPage');
+        const emergencyPage = $('#emergencyPage');
+        const hospitalsPage = $('#hospitalsPage');
+        const medicalRecordsPage = $('#medicalRecordsPage');
+        const appointmentsPage = $('#appointmentsPage');
+        const pharmacyPage = $('#pharmacyPage');
+        
+        // Calendar initialization
+        let calendar;
+        
+        // Login Form Submission
+        $(document).ready(function() {
+            $('#loginForm').submit(function(e) {
+                e.preventDefault();
+                
+                const mobile = $('#mobile').val();
+                const password = $('#password').val();
+                
+                // Simple validation
+                if(mobile.length === 10 && password.length >= 6) {
+                    loginPage.addClass('d-none');
+                    successPage.removeClass('d-none');
+                    
+                    // After 3 seconds, show main app
+                    setTimeout(function() {
+                        successPage.addClass('d-none');
+                        mainApp.removeClass('d-none');
+                        showDashboard();
+                        
+                        // Set user profile
+                        $('#profileName').text('User (' + mobile + ')');
+                        $('#profileMobile').text('+91 ' + mobile);
+                        
+                        // Initialize calendar
+                        initCalendar();
+                        
+                        // Load all data
+                        loadHospitals();
+                        loadMedicalRecords();
+                        loadPharmacies();
+                        loadUpcomingAppointments();
+                    }, 3000);
+                } else {
+                    alert('Please enter valid mobile number (10 digits) and password (min 6 characters)');
+                }
+            });
+            
+            // Hospital search functionality
+            $('#hospitalSearch').on('input', function() {
+                filterHospitals();
+            });
+            
+            $('#hospitalFilter').change(function() {
+                filterHospitals();
+            });
+            
+            $('#hospitalDistance').change(function() {
+                filterHospitals();
+            });
+            
+            // Medical records search
+            $('#recordSearch').on('input', function() {
+                filterMedicalRecords();
+            });
+            
+            // Pharmacy search
+            $('#medicineSearch').on('input', function() {
+                filterPharmacies();
+            });
+            
+            $('#medicineFilter').change(function() {
+                filterPharmacies();
+            });
+            
+            // Appointment form submission
+            $('#appointmentForm').submit(function(e) {
+                e.preventDefault();
+                scheduleAppointment();
+            });
+            
+            // Calendar navigation
+            $('#todayBtn').click(function() {
+                calendar.today();
+            });
+            
+            $('#prevBtn').click(function() {
+                calendar.prev();
+            });
+            
+            $('#nextBtn').click(function() {
+                calendar.next();
+            });
+            
+            // Forgot password OTP flow
+            $('#resetPasswordBtn').click(function() {
+                if($('#otpField').is(':visible')) {
+                    if($('#newPasswordField').is(':visible')) {
+                        // Password reset complete
+                        alert('Password has been reset successfully!');
+                        $('#forgotPasswordModal').modal('hide');
+                        $('#otpField').hide();
+                        $('#newPasswordField').hide();
+                        $('#resetPasswordBtn').text('Send OTP');
+                    } else {
+                        // OTP verified, show new password field
+                        $('#newPasswordField').show();
+                        $('#resetPasswordBtn').text('Reset Password');
+                    }
+                } else {
+                    // Send OTP
+                    $('#otpField').show();
+                    $('#resetPasswordBtn').text('Verify OTP');
+                    alert('OTP has been sent to your mobile number');
+                }
+            });
+        });
+        
+        // Initialize calendar
+        function initCalendar() {
+            const calendarEl = document.getElementById('calendar');
+            
+            calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                headerToolbar: {
+                    left: '',
+                    center: 'title',
+                    right: ''
+                },
+                events: appointments.map(appointment => ({
+                    title: appointment.title,
+                    start: appointment.date,
+                    extendedProps: {
+                        type: appointment.type,
+                        hospital: appointment.hospital,
+                        time: appointment.time,
+                        status: appointment.status,
+                        notes: appointment.notes
+                    }
+                })),
+                eventClick: function(info) {
+                    showAppointmentDetails(info.event);
+                }
+            });
+            
+            calendar.render();
+        }
+        
+        // Show dashboard
+        function showDashboard() {
+            dashboardPage.show();
+            emergencyPage.hide();
+            hospitalsPage.addClass('d-none');
+            medicalRecordsPage.addClass('d-none');
+            appointmentsPage.addClass('d-none');
+            pharmacyPage.addClass('d-none');
+        }
+        
+        // Show emergency contacts
+        function showEmergencyContacts() {
+            emergencyPage.show();
+            dashboardPage.hide();
+            hospitalsPage.addClass('d-none');
+            medicalRecordsPage.addClass('d-none');
+            appointmentsPage.addClass('d-none');
+            pharmacyPage.addClass('d-none');
+            $('#emergencyResults').hide();
+        }
+        
+        // Show hospitals
+        function showHospitals() {
+            hospitalsPage.removeClass('d-none');
+            dashboardPage.hide();
+            emergencyPage.hide();
+            medicalRecordsPage.addClass('d-none');
+            appointmentsPage.addClass('d-none');
+            pharmacyPage.addClass('d-none');
+        }
+        
+        // Show medical records
+        function showMedicalRecords() {
+            medicalRecordsPage.removeClass('d-none');
+            dashboardPage.hide();
+            emergencyPage.hide();
+            hospitalsPage.addClass('d-none');
+            appointmentsPage.addClass('d-none');
+            pharmacyPage.addClass('d-none');
+        }
+        
+        // Show appointments
+        function showAppointments() {
+            appointmentsPage.removeClass('d-none');
+            dashboardPage.hide();
+            emergencyPage.hide();
+            hospitalsPage.addClass('d-none');
+            medicalRecordsPage.addClass('d-none');
+            pharmacyPage.addClass('d-none');
+        }
+        
+        // Show pharmacy
+        function showPharmacy() {
+            pharmacyPage.removeClass('d-none');
+            dashboardPage.hide();
+            emergencyPage.hide();
+            hospitalsPage.addClass('d-none');
+            medicalRecordsPage.addClass('d-none');
+            appointmentsPage.addClass('d-none');
+        }
+        
+        // Filter hospitals based on search and filter
+        function filterHospitals() {
+            const searchTerm = $('#hospitalSearch').val().toLowerCase();
+            const filterType = $('#hospitalFilter').val();
+            const maxDistance = parseInt($('#hospitalDistance').val());
+            
+            const filteredHospitals = hospitals.filter(hospital => {
+                const matchesSearch = hospital.name.toLowerCase().includes(searchTerm) || 
+                                      hospital.address.toLowerCase().includes(searchTerm);
+                const matchesFilter = filterType === 'all' || hospital.type === filterType;
+                const matchesDistance = hospital.distance <= maxDistance;
+                return matchesSearch && matchesFilter && matchesDistance;
+            });
+            
+            displayHospitals(filteredHospitals);
+        }
+        
+        // Load all hospitals
+        function loadHospitals() {
+            displayHospitals(hospitals);
+        }
+        
+        // Display hospitals in the UI
+        function displayHospitals(hospitalsToDisplay) {
+            $('#hospitalResults').empty();
+            
+            if(hospitalsToDisplay.length === 0) {
+                $('#hospitalResults').html('<div class="col-12 text-center py-5"><h5>No hospitals found matching your criteria</h5></div>');
+                return;
+            }
+            
+            hospitalsToDisplay.forEach(hospital => {
+                $('#hospitalResults').append(`
+                    <div class="col-md-6 col-lg-4">
+                        <div class="hospital-card">
+                            <img src="${hospital.image}" class="hospital-img w-100" alt="${hospital.name}">
+                            <div class="p-3">
+                                <h5>${hospital.name}</h5>
+                                <p class="text-muted small">${hospital.address}</p>
+                                <p class="hospital-price">Starting from ${hospital.price}</p>
+                                <div class="d-flex justify-content-between mt-3">
+                                    <button class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-directions me-1"></i> Directions
+                                    </button>
+                                    <button class="btn btn-sm btn-primary" onclick="showAppointmentModal('${hospital.name}')">
+                                        <i class="fas fa-calendar-plus me-1"></i> Book
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `);
+            });
+        }
+        
+        // Show appointment modal for a hospital
+        function showAppointmentModal(hospitalName) {
+            $('#appointmentHospital').val(hospitalName.toLowerCase().includes('apollo') ? 'apollo' : 
+                                        hospitalName.toLowerCase().includes('fortis') ? 'fortis' : 
+                                        hospitalName.toLowerCase().includes('max') ? 'max' : 'aiims');
+            showAppointments();
+            $('html, body').animate({
+                scrollTop: $('#appointmentForm').offset().top - 100
+            }, 500);
+        }
+        
+        // Show ambulance contacts
+        function showAmbulanceContacts() {
+            displayEmergencyContacts('Ambulance Services', ambulanceContacts);
+        }
+        
+        // Show police contacts
+        function showPoliceContacts() {
+            displayEmergencyContacts('Police Assistance', policeContacts);
+        }
+        
+        // Show fire contacts
+        function showFireContacts() {
+            displayEmergencyContacts('Fire Department', fireContacts);
+        }
+        
+        // Show women safety contacts
+        function showWomenSafetyContacts() {
+            displayEmergencyContacts("Women's Safety Helplines", womenSafetyContacts);
+        }
+        
+        // Show mental health contacts
+        function showMentalHealthContacts() {
+            displayEmergencyContacts("Mental Health Support", mentalHealthContacts);
+        }
+        
+        // Show poison control contacts
+        function showPoisonControl() {
+            displayEmergencyContacts("Poison Control Centers", poisonControlContacts);
+        }
+        
+        // Show road accident contacts
+        function showRoadAccidentContacts() {
+            displayEmergencyContacts("Road Accident Helplines", roadAccidentContacts);
+        }
+        
+        // Show senior citizen contacts
+        function showSeniorCitizenContacts() {
+            displayEmergencyContacts("Senior Citizen Support", seniorCitizenContacts);
+        }
+        
+        // Show disaster management contacts
+        function showDisasterManagementContacts() {
+            displayEmergencyContacts("Disaster Management", disasterManagementContacts);
+        }
+        
+        // Show blood bank contacts
+        function showBloodBankContacts() {
+            displayEmergencyContacts("Blood Banks", bloodBankContacts);
+        }
+        
+        // Display emergency contacts in the UI
+        function displayEmergencyContacts(title, contacts) {
+            $('#emergencyResultsTitle').text(title);
+            $('#emergencyResultsContent').empty();
+            
+            contacts.forEach(contact => {
+                $('#emergencyResultsContent').append(`
+                    <div class="contact-card">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-1">${contact.name}</h6>
+                                <small class="text-muted">Available 24/7</small>
+                            </div>
+                            <div>
+                                <a href="tel:${contact.number}" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-phone-alt me-1"></i> ${contact.number}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `);
+            });
+            
+            $('#emergencyResults').show();
+            $('html, body').animate({
+                scrollTop: $('#emergencyResults').offset().top - 100
+            }, 500);
+        }
+        
+        // Close emergency results
+        function closeEmergencyResults() {
+            $('#emergencyResults').hide();
+        }
+        
+        // Load medical records
+        function loadMedicalRecords() {
+            displayMedicalRecords(medicalRecords);
+        }
+        
+        // Filter medical records
+        function filterMedicalRecords() {
+            const searchTerm = $('#recordSearch').val().toLowerCase();
+            
+            const filteredRecords = medicalRecords.filter(record => {
+                return record.title.toLowerCase().includes(searchTerm) || 
+                       record.hospital.toLowerCase().includes(searchTerm) || 
+                       record.doctor.toLowerCase().includes(searchTerm) || 
+                       record.description.toLowerCase().includes(searchTerm);
+            });
+            
+            displayMedicalRecords(filteredRecords);
+        }
+        
+        // Display medical records
+        function displayMedicalRecords(records) {
+            $('#allRecords').empty();
+            $('#reportRecords').empty();
+            $('#prescriptionRecords').empty();
+            $('#vaccinationRecords').empty();
+            
+            if(records.length === 0) {
+                $('#allRecords').html('<div class="text-center py-5"><h5>No records found matching your criteria</h5></div>');
+                return;
+            }
+            
+            records.forEach(record => {
+                const recordCard = `
+                    <div class="medical-record mb-3">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h5 class="mb-1">${record.title}</h5>
+                                <p class="text-muted small mb-1">${record.date} • ${record.hospital}</p>
+                                <p class="small mb-0">${record.description}</p>
+                            </div>
+                            <div>
+                                <button class="btn btn-sm btn-outline-primary me-1">
+                                    <i class="fas fa-eye me-1"></i>View
+                                </button>
+                                <button class="btn btn-sm btn-outline-secondary">
+                                    <i class="fas fa-download me-1"></i>Download
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                $('#allRecords').append(recordCard);
+                
+                if(record.type === 'lab_report' || record.type === 'scan_report') {
+                    $('#reportRecords').append(recordCard);
+                } else if(record.type === 'prescription') {
+                    $('#prescriptionRecords').append(recordCard);
+                } else if(record.type === 'vaccination') {
+                    $('#vaccinationRecords').append(recordCard);
+                }
+            });
+        }
+        
+        // Add medical record
+        function addMedicalRecord() {
+            const recordType = $('#recordType').val();
+            const title = $('#recordTitle').val();
+            const date = $('#recordDate').val();
+            const hospital = $('#recordHospital').val();
+            const doctor = $('#recordDoctor').val();
+            const description = $('#recordDescription').val();
+            
+            if(!recordType || !title || !date) {
+                alert('Please fill all required fields');
+                return;
+            }
+            
+            const newRecord = {
+                id: medicalRecords.length + 1,
+                type: recordType,
+                title: title,
+                date: date,
+                hospital: hospital || 'Not specified',
+                doctor: doctor || 'Not specified',
+                description: description || 'No additional details provided',
+                file: 'new_file.pdf'
+            };
+            
+            medicalRecords.unshift(newRecord);
+            loadMedicalRecords();
+            $('#addRecordModal').modal('hide');
+            $('#addRecordForm')[0].reset();
+            
+            alert('Medical record added successfully!');
+        }
+        
+        // Load pharmacies
+        function loadPharmacies() {
+            displayPharmacies(pharmacies);
+        }
+        
+        // Filter pharmacies
+        function filterPharmacies() {
+            const searchTerm = $('#medicineSearch').val().toLowerCase();
+            const filterType = $('#medicineFilter').val();
+            
+            const filteredPharmacies = pharmacies.filter(pharmacy => {
+                const matchesSearch = pharmacy.name.toLowerCase().includes(searchTerm) || 
+                                      pharmacy.address.toLowerCase().includes(searchTerm);
+                const matchesFilter = filterType === 'all' || 
+                                     (filterType === 'prescription' && pharmacy.name.includes('Apollo')) ||
+                                     (filterType === 'otc' && pharmacy.name.includes('MedPlus')) ||
+                                     (filterType === 'ayurvedic' && pharmacy.name.includes('Wellness'));
+                return matchesSearch && matchesFilter;
+            });
+            
+            displayPharmacies(filteredPharmacies);
+        }
+        
+        // Display pharmacies
+        function displayPharmacies(pharmaciesToDisplay) {
+            $('#pharmacyResults').empty();
+            
+            if(pharmaciesToDisplay.length === 0) {
+                $('#pharmacyResults').html('<div class="col-12 text-center py-5"><h5>No pharmacies found matching your criteria</h5></div>');
+                return;
+            }
+            
+            pharmaciesToDisplay.forEach(pharmacy => {
+                $('#pharmacyResults').append(`
+                    <div class="col-md-6 col-lg-4">
+                        <div class="pharmacy-card">
+                            <div class="position-relative">
+                                <img src="${pharmacy.image}" class="pharmacy-img w-100" alt="${pharmacy.name}">
+                                ${pharmacy.open24x7 ? '<span class="delivery-badge"><i class="fas fa-clock me-1"></i>24/7 Delivery</span>' : ''}
+                            </div>
+                            <div class="p-3">
+                                <h5>${pharmacy.name}</h5>
+                                <div class="d-flex align-items-center mb-2">
+                                    <div class="text-warning me-2">
+                                        ${'<i class="fas fa-star"></i>'.repeat(Math.floor(pharmacy.rating))}
+                                        ${pharmacy.rating % 1 >= 0.5 ? '<i class="fas fa-star-half-alt"></i>' : ''}
+                                        ${'<i class="far fa-star"></i>'.repeat(5 - Math.ceil(pharmacy.rating))}
+                                    </div>
+                                    <small class="text-muted">${pharmacy.rating}</small>
+                                </div>
+                                <p class="text-muted small mb-2">${pharmacy.address}</p>
+                                <p class="small mb-3"><i class="fas fa-bolt text-success me-1"></i>Delivery in ${pharmacy.deliveryTime}</p>
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-phone-alt me-1"></i> Call
+                                    </button>
+                                    <button class="btn btn-sm btn-primary">
+                                        <i class="fas fa-shopping-cart me-1"></i> Order
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `);
+            });
+        }
+        
+        // Schedule appointment
+        function scheduleAppointment() {
+            const type = $('#appointmentType').val();
+            const hospital = $('#appointmentHospital').val();
+            const date = $('#appointmentDate').val();
+            const time = $('#appointmentTime').val();
+            const notes = $('#appointmentNotes').val();
+            
+            if(!type || !hospital || !date || !time) {
+                alert('Please fill all required fields');
+                return;
+            }
+            
+            const hospitalName = {
+                'aiims': 'AIIMS Delhi',
+                'apollo': 'Apollo Hospitals',
+                'fortis': 'Fortis Hospital',
+                'max': 'Max Healthcare'
+            }[hospital];
+            
+            const typeName = {
+                'general': 'General Consultation',
+                'specialist': 'Specialist Consultation',
+                'followup': 'Follow-up Visit',
+                'test': 'Diagnostic Test',
+                'vaccination': 'Vaccination'
+            }[type];
+            
+            const newAppointment = {
+                id: appointments.length + 1,
+                title: typeName + (type === 'specialist' ? ' - Cardiology' : ''),
+                type: type,
+                hospital: hospitalName,
+                date: new Date(date),
+                time: time,
+                status: 'confirmed',
+                notes: notes || 'No additional notes'
+            };
+            
+            appointments.push(newAppointment);
+            calendar.addEvent({
+                title: newAppointment.title,
+                start: newAppointment.date,
+                extendedProps: {
+                    type: newAppointment.type,
+                    hospital: newAppointment.hospital,
+                    time: newAppointment.time,
+                    status: newAppointment.status,
+                    notes: newAppointment.notes
+                }
+            });
+            
+            loadUpcomingAppointments();
+            $('#appointmentForm')[0].reset();
+            
+            alert('Appointment scheduled successfully!');
+            
+            // Simulate notification
+            setTimeout(() => {
+                alert(`Reminder: You have an appointment at ${hospitalName} on ${date} at ${time}`);
+            }, 5000);
+        }
+        
+        // Load upcoming appointments
+        function loadUpcomingAppointments() {
+            $('#upcomingAppointments').empty();
+            
+            appointments.sort((a, b) => a.date - b.date);
+            
+            appointments.forEach(appointment => {
+                const statusClass = appointment.status === 'confirmed' ? 'badge bg-success' : 
+                                   appointment.status === 'pending' ? 'badge bg-warning' : 'badge bg-secondary';
+                
+                $('#upcomingAppointments').append(`
+                    <tr>
+                        <td>${appointment.date.toDateString()} at ${appointment.time}</td>
+                        <td>${appointment.type.charAt(0).toUpperCase() + appointment.type.slice(1)}</td>
+                        <td>${appointment.hospital}</td>
+                        <td><span class="${statusClass}">${appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}</span></td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-primary" onclick="showAppointmentDetailsModal(${appointment.id})">
+                                <i class="fas fa-info-circle"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `);
+            });
+        }
+        
+        // Show appointment details in modal
+        function showAppointmentDetailsModal(appointmentId) {
+            const appointment = appointments.find(a => a.id === appointmentId);
+            
+            if(!appointment) return;
+            
+            $('#appointmentDetailsTitle').text('Appointment Details');
+            $('#appointmentDetailsContent').html(`
+                <div class="mb-3">
+                    <h6>Type</h6>
+                    <p>${appointment.type.charAt(0).toUpperCase() + appointment.type.slice(1)}</p>
+                </div>
+                <div class="mb-3">
+                    <h6>Hospital/Clinic</h6>
+                    <p>${appointment.hospital}</p>
+                </div>
+                <div class="mb-3">
+                    <h6>Date & Time</h6>
+                    <p>${appointment.date.toDateString()} at ${appointment.time}</p>
+                </div>
+                <div class="mb-3">
+                    <h6>Status</h6>
+                    <p><span class="badge ${appointment.status === 'confirmed' ? 'bg-success' : 'bg-warning'}">
+                        ${appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}
+                    </span></p>
+                </div>
+                <div class="mb-3">
+                    <h6>Notes</h6>
+                    <p>${appointment.notes}</p>
+                </div>
+            `);
+            
+            $('#appointmentDetailsModal').modal('show');
+        }
+        
+        // Show appointment details from calendar event
+        function showAppointmentDetails(event) {
+            $('#appointmentDetailsTitle').text(event.title);
+            $('#appointmentDetailsContent').html(`
+                <div class="mb-3">
+                    <h6>Type</h6>
+                    <p>${event.extendedProps.type.charAt(0).toUpperCase() + event.extendedProps.type.slice(1)}</p>
+                </div>
+                <div class="mb-3">
+                    <h6>Hospital/Clinic</h6>
+                    <p>${event.extendedProps.hospital}</p>
+                </div>
+                <div class="mb-3">
+                    <h6>Date & Time</h6>
+                    <p>${event.start.toDateString()} at ${event.extendedProps.time}</p>
+                </div>
+                <div class="mb-3">
+                    <h6>Status</h6>
+                    <p><span class="badge ${event.extendedProps.status === 'confirmed' ? 'bg-success' : 'bg-warning'}">
+                        ${event.extendedProps.status.charAt(0).toUpperCase() + event.extendedProps.status.slice(1)}
+                    </span></p>
+                </div>
+                <div class="mb-3">
+                    <h6>Notes</h6>
+                    <p>${event.extendedProps.notes}</p>
+                </div>
+            `);
+            
+            $('#appointmentDetailsModal').modal('show');
+        }
+        
+        // Register user (demo function)
+        function registerUser() {
+            const name = $('#regName').val();
+            const mobile = $('#regMobile').val();
+            const password = $('#regPassword').val();
+            const confirmPassword = $('#regConfirmPassword').val();
+            
+            if(password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+            
+            if(mobile.length !== 10) {
+                alert('Please enter a valid 10-digit mobile number');
+                return;
+            }
+            
+            alert(`Registration successful for ${name} (${mobile}). You can now login.`);
+            $('#registerModal').modal('hide');
+            $('#registerForm')[0].reset();
+        } 
+        
+        // Logout function
+        function logout() {
+            mainApp.addClass('d-none');
+            loginPage.removeClass('d-none');
+            $('#mobile').val('');
+            $('#password').val('');
+        }
+    </script>
+</body>
+</html>
