@@ -1,0 +1,40 @@
+{
+  "name": "a0-project",
+  "version": "1.0.0",
+  "license": "0BSD",
+  "private": true,
+  "main": "index.ts",
+  "scripts": {
+    "start": "npx expo start",
+    "android": "npx expo run:android",
+    "ios": "npx expo run:ios",
+    "web": "npx expo start --web"
+  },
+  "dependencies": {
+    "@expo/vector-icons": "latest",
+    "@react-native-async-storage/async-storage": "latest",
+    "@react-native-community/slider": "latest",
+    "@react-navigation/bottom-tabs": "latest",
+    "@react-navigation/native": "latest",
+    "@react-navigation/native-stack": "latest",
+    "@supabase/supabase-js": "latest",
+    "expo": "^52.0.42",
+    "expo-camera": "latest",
+    "expo-linear-gradient": "latest",
+    "expo-location": "latest",
+    "lucide-react-native": "latest",
+    "react": "18.2.0",
+    "react-native": "0.72.6",
+    "react-native-gesture-handler": "latest",
+    "react-native-safe-area-context": "latest",
+    "react-native-screens": "latest",
+    "react-native-svg": "latest",
+    "react-native-web": "~0.19.6",
+    "sonner-native": "latest"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.0",
+    "@types/react": "~18.2.14",
+    "typescript": "^5.1.3"
+  }
+}
